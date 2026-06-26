@@ -34,6 +34,7 @@ metadata_model = model(
 
     ],
     types=[
+        from_yaml("metadata-definitions.yaml", __file__),
         from_yaml("metadata.yaml", __file__)
     ],
     metadata_type="Metadata",

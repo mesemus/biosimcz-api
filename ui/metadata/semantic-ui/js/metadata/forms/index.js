@@ -8,6 +8,7 @@ import {
   CCMMSections,
 } from "@js/ccmm_invenio/forms";
 //import FormFieldsContainer from "./FormFieldsContainer";
+import XYZ from "./Primitives"
 import { UppyUploader } from "@js/invenio_rdm_records";
 import {
   useFormConfig,
@@ -43,6 +44,7 @@ export const NewSection = {
     return (
     <React.Fragment>
       <TextField fieldPath="metadata.collection_date" />
+        <XYZ fieldPath="metadata.system.box_size_and_shape"></XYZ>
     </React.Fragment>
     );
   },

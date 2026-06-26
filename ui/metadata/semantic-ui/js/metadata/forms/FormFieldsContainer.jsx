@@ -87,5 +87,19 @@ const mapStateToProps = (state) => {
   };
 };
 
+
+
+const FormFieldsContainerComponent = ({ record }) => {
+  const formConfig = useFormConfig();
+  const { filesLocked } = formConfig;
+
+  return (
+      <React.Fragment>
+        <TextField fieldPath="metadata.collection_date" />
+      </React.Fragment>
+  );
+};
+
+
 export default connect(mapStateToProps)(FormFieldsContainerComponent);
 

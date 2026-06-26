@@ -1,0 +1,33 @@
+Matrix:
+  type: array
+  items:
+    type: array
+    items:
+      type: float
+
+
+XYZ:
+  type: array
+  items:
+    type: float
+  label:
+    en: XYZ
+    cs: XYZ
+  min_items: 3
+  max_items: 3
+
+Molecule:
+  properties:
+    id:
+      type: keyword
+      label.en: Molecule ID
+    name:
+      type: keyword
+      label.en: Molecule name
+    count:
+      type: integer
+      label.en: Molecule count
+    residues[]:
+      type: keyword
+      ^label.en: List of residues
+
