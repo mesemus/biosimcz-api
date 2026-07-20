@@ -525,19 +525,19 @@ Metadata:
               type: float
               title: Wall Linear Pot. Radius
               description: Distance threshold for linearization in wall potential.
-            'wall-atomtype[0]':
+            'wall-atomtype0':
               type: int
               title: Wall Atom Type 0
               description: Atom type used to represent wall 0.
-            'wall-atomtype[1]':
+            'wall-atomtype1':
               type: int
               title: Wall Atom Type 1
               description: Atom type used to represent wall 1.
-            'wall-density[0]':
+            'wall-density0':
               type: float
               title: Wall Density 0
               description: Density of wall 0.
-            'wall-density[1]':
+            'wall-density1':
               type: float
               title: Wall Density 1
               description: Density of wall 1.
