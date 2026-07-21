@@ -20,9 +20,9 @@ export const XYZ = ({
 
     return (
         <div class="ui grid">
-            <TextField class="four wide column" optimized fieldRepresentation="compact" label="X" fieldPath={`${fieldPath}.0`} {...getFieldData({ "fieldPath": `${fieldPath}.0`, fieldRepresentation, icon })} {...rest} />
-            <TextField class="four wide column" optimized fieldRepresentation="compact" label="X" fieldPath={`${fieldPath}.1`} {...getFieldData({ "fieldPath": `${fieldPath}.1`, fieldRepresentation, icon })} {...rest} />
-            <TextField class="four wide column" optimized fieldRepresentation="compact" label="X" fieldPath={`${fieldPath}.2`} {...getFieldData({ "fieldPath": `${fieldPath}.2`, fieldRepresentation, icon })} {...rest} />
+            <TextField class="three wide column" optimized fieldRepresentation="compact" type="number" label="X" fieldPath={`${fieldPath}.0`} {...getFieldData({ "fieldPath": `${fieldPath}.0`, fieldRepresentation, icon })} {...rest} />
+            <TextField class="three wide column" optimized fieldRepresentation="compact" type="number" label="X" fieldPath={`${fieldPath}.1`} {...getFieldData({ "fieldPath": `${fieldPath}.1`, fieldRepresentation, icon })} {...rest} />
+            <TextField class="three wide column" optimized fieldRepresentation="compact" type="number" label="X" fieldPath={`${fieldPath}.2`} {...getFieldData({ "fieldPath": `${fieldPath}.2`, fieldRepresentation, icon })} {...rest} />
         </div>
     );
 };

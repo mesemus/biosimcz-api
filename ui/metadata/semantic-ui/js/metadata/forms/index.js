@@ -43,12 +43,12 @@ export const NewSection = {
     //const { filesLocked } = formConfig.config;
     return (
     <React.Fragment>
-      <TextField fieldPath="metadata.collection_date" />
-        <XYZ fieldPath="metadata.system.box_size_and_shape"></XYZ>
+      <TextField fieldPath="metadata.administrative.publication_year" type="number" />
+      <XYZ fieldPath="metadata.system.box_dimensions"></XYZ>
     </React.Fragment>
     );
   },
-  includesPaths: ["metadata.collection_date"],
+  includesPaths: ["metadata.collection_date", "metadata.system.box_dimensions"],
 };
 
 export const mySections = [...CCMMSections, NewSection];
