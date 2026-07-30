@@ -1,9 +1,9 @@
 import React from "react";
-import { TextField as InvenioTextField } from "react-invenio-forms";
-import { useFieldData, useSanitizeInput } from "../../hooks";
-import { getIn, useFormikContext } from "formik";
+import {TextField as InvenioTextField} from "react-invenio-forms";
+import {useFieldData, useSanitizeInput} from "../../hooks";
+import {getIn, useFormikContext} from "formik";
 import PropTypes from "prop-types";
-import { mergeFieldData } from "../../util";
+import {mergeFieldData} from "../../util";
 
 export const TextField = ({
                               fieldPath,
@@ -15,13 +15,13 @@ export const TextField = ({
                               placeholder,
                               ...rest
                           }) => {
-    const { sanitizeInput } = useSanitizeInput();
-    const { setFieldTouched, setFieldValue, values } = useFormikContext();
-    const { getFieldData } = useFieldData();
+    const {sanitizeInput} = useSanitizeInput();
+    const {setFieldTouched, setFieldValue, values} = useFormikContext();
+    const {getFieldData} = useFieldData();
 
     const fieldDataProps = mergeFieldData(
-        getFieldData({ fieldPath, fieldRepresentation, icon }),
-        { label, required, helpText, placeholder }
+        getFieldData({fieldPath, fieldRepresentation, icon}),
+        {label, required, helpText, placeholder}
     );
 
     return (

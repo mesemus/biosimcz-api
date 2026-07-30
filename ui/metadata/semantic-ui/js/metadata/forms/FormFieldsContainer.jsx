@@ -1,29 +1,29 @@
 import * as React from "react";
 
 import {
-  useFormConfig,
+    useFormConfig,
 //  FormikStateLogger,
-  CreatibutorsField,
-  TextField,
+    CreatibutorsField,
+    TextField,
 } from "@js/oarepo_ui/forms";
-import { AccordionField } from "react-invenio-forms";
-import { i18next } from "@translations/i18next";
-import { connect } from "react-redux";
+import {AccordionField} from "react-invenio-forms";
+import {i18next} from "@translations/i18next";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import { GroupField } from "react-invenio-forms";
+import {GroupField} from "react-invenio-forms";
 
-const FormFieldsContainerComponent = ({ record }) => {
-  const formConfig = useFormConfig();
-  const { filesLocked } = formConfig;
+const FormFieldsContainerComponent = ({record}) => {
+    const formConfig = useFormConfig();
+    const {filesLocked} = formConfig;
 
-  return (
-    <React.Fragment>
-      <GroupField fieldPath="metadata.administrative.software_information">
-        <TextField fieldPath="metadata.administrative.software_information.software" />
-        <TextField fieldPath="metadata.administrative.software_information.version" />
-      </GroupField>
+    return (
+        <React.Fragment>
+            <GroupField fieldPath="metadata.administrative.software_information">
+                <TextField fieldPath="metadata.administrative.software_information.software"/>
+                <TextField fieldPath="metadata.administrative.software_information.version"/>
+            </GroupField>
 
-	  {/*
+            {/*
       <AccordionField
         includesPaths={["metadata.title"]}
         active
@@ -77,31 +77,30 @@ const FormFieldsContainerComponent = ({ record }) => {
       {process.env.NODE_ENV === "development" && <FormikStateLogger />}
 */}
 
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 };
 
 FormFieldsContainerComponent.propTypes = {
-  record: PropTypes.object.isRequired,
+    record: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  return {
-    record: state.deposit.record,
-  };
+    return {
+        record: state.deposit.record,
+    };
 };
 
 
+const FormFieldsContainerComponent = ({record}) => {
+    const formConfig = useFormConfig();
+    const {filesLocked} = formConfig;
 
-const FormFieldsContainerComponent = ({ record }) => {
-  const formConfig = useFormConfig();
-  const { filesLocked } = formConfig;
-
-  return (
-      <React.Fragment>
-        <TextField fieldPath="metadata.collection_date" />
-      </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <TextField fieldPath="metadata.collection_date"/>
+        </React.Fragment>
+    );
 };
 
 
