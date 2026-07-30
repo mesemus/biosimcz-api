@@ -6,26 +6,6 @@ Metadata:
   properties:
     administrative:
       properties:
-        title:
-          title: Title of the dataset
-          type: fulltext
-        creator:
-          description: ORCIDs are encouraged
-          title: Creator of the dataset or data curator
-          type: fulltext
-        publishing_institution:
-          description: >-
-            Institution that published the dataset. Use the ROR ID
-            (https://ror.org/) if available
-          title: Publishing Institution
-          type: fulltext
-        publication_year:
-          title: Publication Year
-          type: int
-        identifier:
-          description: DOI or other identifier
-          title: Identifier
-          type: fulltext
         software_information:
           type: object
           title: Software Information
@@ -1272,17 +1252,27 @@ Metadata:
                   description: float of atoms in the QM/MM group.
     system:
       type: object
-      title: System Level Data
-      description: >-
-        Describes the overall system setup, such as water model and box
-        dimensions.
+      label:
+        en: System
       properties:
-        water_model:
-          type: fulltext
-          title: Water Model
-          description: 'The water model used in the simulation (e.g., ''TIP3P'', ''SPC/E'').'
-        box_size_and_shape:
-          type: XYZ
-          title: Box Dimensions
-          description: 'Size of the simulation box in x, y, z dimensions (in nm).'
+        total_atoms:
+          type: long
+          min_exclusive: 0
+          label:
+            en: Total Atoms
+          help:
+            en: Total number of atoms in the simulated system.
 
+        box_dimensions:
+          type: array
+          min_items: 3
+          max_items: 6
+          label:
+            en: Box Dimensions
+          help:
+            en: >-
+              Box lengths (a, b, c) and, if applicable,
+              angles (alpha, beta, gamma).
+          items:
+            type: double
+            min_exclusive: 0

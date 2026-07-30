@@ -16,6 +16,7 @@ import {
   CreatibutorsField,
   TextField,
 } from "@js/oarepo_ui/forms";
+import { GroupField } from "react-invenio-forms";
 
 const { rootEl, config, ...rest } = parseFormAppConfig();
 const recordSerializer = new CCMMDepositRecordSerializer(
@@ -43,12 +44,16 @@ export const NewSection = {
     //const { filesLocked } = formConfig.config;
     return (
     <React.Fragment>
-      <TextField fieldPath="metadata.administrative.publication_year" type="number" />
+      {/*<GroupField fieldPath="metadata.administrative.software_information">*/}
+        <TextField fieldRepresentation="text" fieldPath="metadata.administrative.software_information.software" />
+        <TextField fieldRepresentation="text" fieldPath="metadata.administrative.software_information.version" />
+      {/*</GroupField>*/}
+
       <XYZ fieldPath="metadata.system.box_dimensions"></XYZ>
     </React.Fragment>
     );
   },
-  includesPaths: ["metadata.collection_date", "metadata.system.box_dimensions"],
+  includesPaths: ["metadata.administrative.software_information", "metadata.system.box_dimensions"],
 };
 
 export const mySections = [...CCMMSections, NewSection];

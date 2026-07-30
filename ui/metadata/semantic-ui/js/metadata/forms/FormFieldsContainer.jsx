@@ -10,6 +10,7 @@ import { AccordionField } from "react-invenio-forms";
 import { i18next } from "@translations/i18next";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { GroupField } from "react-invenio-forms";
 
 const FormFieldsContainerComponent = ({ record }) => {
   const formConfig = useFormConfig();
@@ -17,7 +18,10 @@ const FormFieldsContainerComponent = ({ record }) => {
 
   return (
     <React.Fragment>
-      <TextField fieldPath="metadata.collection_date" />
+      <GroupField fieldPath="metadata.administrative.software_information">
+        <TextField fieldPath="metadata.administrative.software_information.software" />
+        <TextField fieldPath="metadata.administrative.software_information.version" />
+      </GroupField>
 
 	  {/*
       <AccordionField
