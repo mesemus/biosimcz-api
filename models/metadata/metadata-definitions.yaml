@@ -1,33 +1,186 @@
-Matrix:
-  type: array
-  items:
-    type: array
-    items:
-      type: float
+# BioSim CZ Experiment metadata
+#
+# Common Experiment envelope plus polymorphic type-specific metadata.
+# Referenced from the Study data model.
 
-
-XYZ:
-  type: array
-  items:
-    type: float
-  label:
-    en: XYZ
-    cs: XYZ
-  min_items: 3
-  max_items: 3
-
-Molecule:
+Experiment:
+  type: object
   properties:
-    id:
-      type: keyword
-      label.en: Molecule ID
     name:
       type: keyword
-      label.en: Molecule name
-    count:
-      type: integer
-      label.en: Molecule count
-    residues[]:
-      type: keyword
-      ^label.en: List of residues
+      required: true
+      label:
+        en: Experiment Name
+      help:
+        en: >-
+          Short label for the experiment
+          (e.g., replica_1, NPT production).
 
+    description:
+      type: fulltext
+      label:
+        en: Description
+      help:
+        en: Free-text description of the experiment.
+
+    metadata:
+      type: object
+      properties:
+        simulation_setup:
+          type: object
+          label:
+            en: Simulation Setup
+          properties:
+            software:
+              type: vocabulary
+              vocabulary-type: software
+              label:
+                en: Simulation Software
+              help:
+                en: Name of the MD engine (e.g., GROMACS, AMBER).
+
+            software_version:
+              type: keyword
+              label:
+                en: Software Version
+              help:
+                en: Version of the simulation software.
+
+            force_field:
+              type: vocabulary
+              vocabulary-type: force_field
+              label:
+                en: Force Field
+              help:
+                en: >-
+                  Name of the force field used
+                  (e.g., CHARMM36, AMBER99SB-ILDN).
+
+            water_model:
+              type: vocabulary
+              vocabulary-type: water_model
+              label:
+                en: Water Model
+              help:
+                en: Water model used in the simulation (e.g., TIP3P, SPC/E).
+
+            integrator:
+              type: vocabulary
+              vocabulary-type: integrator
+              label:
+                en: Integrator
+              help:
+                en: Integrator algorithm (e.g., leap-frog, Verlet).
+
+        thermodynamic_state:
+          type: object
+          label:
+            en: Thermodynamic State
+          properties:
+            ensemble:
+              type: vocabulary
+              vocabulary-type: ensemble
+              label:
+                en: Ensemble
+              help:
+                en: Thermodynamic ensemble used in the simulation.
+
+            reference_temperature:
+              type: double
+              min_inclusive: 0
+              label:
+                en: Reference Temperature (K)
+              help:
+                en: Reference temperature of the simulation in Kelvin.
+
+            reference_pressure:
+              type: double
+              min_inclusive: 0
+              label:
+                en: Reference Pressure (bar)
+              help:
+                en: Reference pressure of the simulation (when applicable).
+
+            thermostat:
+              type: vocabulary
+              vocabulary-type: thermostat
+              label:
+                en: Thermostat
+              help:
+                en: >-
+                  Temperature coupling algorithm
+                  (e.g., V-rescale, Nosé-Hoover).
+
+            barostat:
+              type: vocabulary
+              vocabulary-type: barostat
+              label:
+                en: Barostat
+              help:
+                en: >-
+                  Pressure coupling algorithm
+                  (e.g., Parrinello-Rahman, Berendsen).
+
+        temporal_extent:
+          type: object
+          label:
+            en: Temporal Extent
+          properties:
+            simulation_length:
+              type: double
+              min_exclusive: 0
+              label:
+                en: Simulation Length (ns)
+              help:
+                en: Total simulated time in nanoseconds.
+
+            timestep:
+              type: double
+              min_exclusive: 0
+              label:
+                en: Timestep (fs)
+              help:
+                en: Integration timestep in femtoseconds.
+
+            number_of_steps:
+              type: long
+              min_exclusive: 0
+              label:
+                en: Number of Steps
+              help:
+                en: Total number of integration steps.
+
+        system:
+          type: object
+          label:
+            en: System
+          properties:
+            total_atoms:
+              type: long
+              min_exclusive: 0
+              label:
+                en: Total Atoms
+              help:
+                en: Total number of atoms in the simulated system.
+
+            box_type:
+              type: vocabulary
+              vocabulary-type: box_type
+              label:
+                en: Box Type
+              help:
+                en: Simulation box geometry (e.g., cubic, dodecahedron, octahedron, triclinic).
+
+            box_dimensions:
+              type: array
+              min_items: 3
+              max_items: 6
+              label:
+                en: Box Dimensions
+              help:
+                en: >-
+                  Box lengths (a, b, c) and, if applicable,
+                  angles (alpha, beta, gamma).
+              items:
+                type: double
+                min_exclusive: 0

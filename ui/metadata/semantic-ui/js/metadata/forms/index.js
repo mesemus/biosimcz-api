@@ -3,7 +3,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {EDTFSingleDatePicker} from "@js/oarepo_ui/forms";
 import {parametrize} from "react-overridable";
-import XYZ from "./Primitives"
 import {UppyUploader} from "@js/invenio_rdm_records";
 import {
     useFormConfig,
@@ -21,6 +20,7 @@ import {CCMMGeneralInformation} from "@js/ccmm_invenio/forms/CCMMGeneralInformat
 import {AdministrativeSection} from "./sections/Administrative";
 import {CCMMCommunityAndAccess} from "@js/ccmm_invenio/forms/CCMMCommunityAndAccess";
 import {AuxFiles} from "./sections/AuxFiles";
+import {ExperimentsSection} from "./sections/Experiments";
 
 const {rootEl, config, ...rest} = parseFormAppConfig();
 const recordSerializer = new CCMMDepositRecordSerializer(
@@ -41,28 +41,10 @@ export const componentOverrides = {
     parametrizeEDTFSingleDatePicker,
 };
 
-export const NewSection = {
-    key: "aaaAAAA",
-    label: "Example",
-    component: ({record, formConfig}) => {
-        //const { filesLocked } = formConfig.config;
-        return (
-            <React.Fragment>
-                {/*<GroupField fieldPath="metadata.administrative.software_information">*/}
-                <TextField fieldRepresentation="text"
-                           fieldPath="metadata.administrative.software_information.software"/>
-                <TextField fieldRepresentation="text" fieldPath="metadata.administrative.software_information.version"/>
-                {/*</GroupField>*/}
-            </React.Fragment>
-        );
-    },
-    includesPaths: ["metadata.administrative.software_information"],
-};
-
 export const mySections = [
     CCMMCommunityAndAccess,
     AdministrativeSection,
-    NewSection,
+    ExperimentsSection,
     AuxFiles,
 ];
 
