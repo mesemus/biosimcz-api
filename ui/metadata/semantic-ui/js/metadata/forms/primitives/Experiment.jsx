@@ -5,6 +5,30 @@ import {VocabularyField} from "@js/oarepo_vocabularies";
 
 export const Experiment = ({fieldPath, ...rest}) => {
     const { formConfig } = useFormConfig();
+
+	// VocabField workaround
+const vocabularyFieldFix = {
+  serializeSuggestions: (suggestions) =>
+    suggestions
+      .filter((item) => item.id)
+      .map((item) => {
+        const text = item.title || item.title_l10n || item.id;
+        return { text, value: item.id, key: item.id, id: item.id };
+      }),
+  onValueChange: ({ data, formikProps }, selectedSuggestions) => {
+    const fieldPath = formikProps.field.name;
+    if (Array.isArray(data.value)) {
+      const items = selectedSuggestions
+        .filter((o) => data.value.includes(o.id))
+        .map((o) => ({ id: o.id }));
+      formikProps.form.setFieldValue(fieldPath, items);
+    } else {
+      const item = selectedSuggestions.find((o) => o.id === data.value);
+      formikProps.form.setFieldValue(fieldPath, item ? { id: item.id } : "");
+    }
+  },
+};
+
     return (
         <React.Fragment>
             <TextField
@@ -19,6 +43,7 @@ export const Experiment = ({fieldPath, ...rest}) => {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.software`}
                 vocabularyName="software"
+		{...vocabularyFieldFix}
             />
 
             <TextField
@@ -28,22 +53,28 @@ export const Experiment = ({fieldPath, ...rest}) => {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.force_field`}
                 vocabularyName="force_field"
+
+        {...vocabularyFieldFix}
             />
 
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.water_model`}
                 vocabularyName="water_model"
+
+        {...vocabularyFieldFix}
             />
 
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.integrator`}
                 vocabularyName="integrator"
+        {...vocabularyFieldFix}
             />
 
             {/*/!* Thermodynamic State *!/*/}
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.thermodynamic_state.ensemble`}
                 vocabularyName="ensemble"
+        {...vocabularyFieldFix}
             />
 
             {/*<NumberField*/}
@@ -59,11 +90,13 @@ export const Experiment = ({fieldPath, ...rest}) => {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.thermodynamic_state.thermostat`}
                 vocabularyName="thermostat"
+        {...vocabularyFieldFix}
             />
 
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.thermodynamic_state.barostat`}
                 vocabularyName="barostat"
+        {...vocabularyFieldFix}
             />
 
             {/*/!* Temporal Extent *!/*/}
@@ -97,6 +130,7 @@ export const Experiment = ({fieldPath, ...rest}) => {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.system.box_type`}
                 vocabularyName="box_type"
+        {...vocabularyFieldFix}
             />
 
             {/*<ArrayField*/}

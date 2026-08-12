@@ -17,8 +17,6 @@ export const ExperimentsSection = {
         const fieldPath = "metadata.experiments";
         return (
             <React.Fragment>
-                <p>Note: Experiments not in an array yet due to incomplete metadata schema.</p>
-
                 <ArrayField
                     fieldPath={fieldPath}
                     addButtonLabel="Add experiment"
