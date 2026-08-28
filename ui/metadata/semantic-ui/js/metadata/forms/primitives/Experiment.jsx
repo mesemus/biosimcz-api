@@ -1,33 +1,33 @@
 import React from "react";
-import {TextField} from "@js/oarepo_ui/forms";
+import { TextField } from "@js/oarepo_ui/forms";
 import { useFormConfig } from "@js/oarepo_ui/forms";
-import {VocabularyField} from "@js/oarepo_vocabularies";
+import { VocabularyField } from "@js/oarepo_vocabularies";
 
-export const Experiment = ({fieldPath, ...rest}) => {
+export const Experiment = ({ fieldPath, ...rest }) => {
     const { formConfig } = useFormConfig();
 
-	// VocabField workaround
-const vocabularyFieldFix = {
-  serializeSuggestions: (suggestions) =>
-    suggestions
-      .filter((item) => item.id)
-      .map((item) => {
-        const text = item.title || item.title_l10n || item.id;
-        return { text, value: item.id, key: item.id, id: item.id };
-      }),
-  onValueChange: ({ data, formikProps }, selectedSuggestions) => {
-    const fieldPath = formikProps.field.name;
-    if (Array.isArray(data.value)) {
-      const items = selectedSuggestions
-        .filter((o) => data.value.includes(o.id))
-        .map((o) => ({ id: o.id }));
-      formikProps.form.setFieldValue(fieldPath, items);
-    } else {
-      const item = selectedSuggestions.find((o) => o.id === data.value);
-      formikProps.form.setFieldValue(fieldPath, item ? { id: item.id } : "");
-    }
-  },
-};
+    // VocabField workaround
+    const vocabularyFieldFix = {
+        serializeSuggestions: (suggestions) =>
+            suggestions
+                .filter((item) => item.id)
+                .map((item) => {
+                    const text = item.title || item.title_l10n || item.id;
+                    return { text, value: item.id, key: item.id, id: item.id };
+                }),
+        onValueChange: ({ data, formikProps }, selectedSuggestions) => {
+            const fieldPath = formikProps.field.name;
+            if (Array.isArray(data.value)) {
+                const items = selectedSuggestions
+                    .filter((o) => data.value.includes(o.id))
+                    .map((o) => ({ id: o.id }));
+                formikProps.form.setFieldValue(fieldPath, items);
+            } else {
+                const item = selectedSuggestions.find((o) => o.id === data.value);
+                formikProps.form.setFieldValue(fieldPath, item ? { id: item.id } : "");
+            }
+        },
+    };
 
     return (
         <React.Fragment>
@@ -43,7 +43,7 @@ const vocabularyFieldFix = {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.software`}
                 vocabularyName="software"
-		{...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             <TextField
@@ -54,27 +54,26 @@ const vocabularyFieldFix = {
                 fieldPath={`${fieldPath}.metadata.simulation_setup.force_field`}
                 vocabularyName="force_field"
 
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.water_model`}
                 vocabularyName="water_model"
-
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.simulation_setup.integrator`}
                 vocabularyName="integrator"
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             {/*/!* Thermodynamic State *!/*/}
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.thermodynamic_state.ensemble`}
                 vocabularyName="ensemble"
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             {/*<NumberField*/}
@@ -90,13 +89,13 @@ const vocabularyFieldFix = {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.thermodynamic_state.thermostat`}
                 vocabularyName="thermostat"
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.thermodynamic_state.barostat`}
                 vocabularyName="barostat"
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             {/*/!* Temporal Extent *!/*/}
@@ -130,7 +129,7 @@ const vocabularyFieldFix = {
             <VocabularyField
                 fieldPath={`${fieldPath}.metadata.system.box_type`}
                 vocabularyName="box_type"
-        {...vocabularyFieldFix}
+                {...vocabularyFieldFix}
             />
 
             {/*<ArrayField*/}
