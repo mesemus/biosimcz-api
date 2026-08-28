@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "target": "ES2020",
+    "module": "ESNext",
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@js/*": [".venv/var/instance/assets/js/*"],
+      "*": [".venv/var/instance/assets/node_modules/*"]
+    }
+  },
+  "include": [
+    "ui/**/*",
+    "assets/**/*",
+    ".venv/var/instance/assets/js/**/*"
+  ],
+  "exclude": [
+    ".venv/var/instance/assets/node_modules",
+    ".venv/var/instance/assets/build",
+    "node_modules"
+  ]
+}
