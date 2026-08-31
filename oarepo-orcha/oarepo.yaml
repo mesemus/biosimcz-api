@@ -1,0 +1,7 @@
+i18n:
+  babel_output_translations: oarepo_orcha/translations
+  babel_source_paths:
+    - oarepo_orcha
+  languages:
+    - cs
+    - en

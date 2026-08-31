@@ -61,5 +61,5 @@ services:
       timeout: 20s
       retries: 3
     ports:
-      - "${INVENIO_S3_HOST}:${INVENIO_S3_PORT}:9000"
-      - "${INVENIO_S3_HOST}:${INVENIO_S3_PORT1}:9001"
+      - "${INVENIO_S3_PORT}:9000"
+      - "${INVENIO_S3_PORT1}:9001"

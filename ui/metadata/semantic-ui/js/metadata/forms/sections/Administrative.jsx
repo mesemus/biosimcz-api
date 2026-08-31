@@ -3,7 +3,6 @@ import {CCMMGeneralInformation} from "@js/ccmm_invenio/forms/CCMMGeneralInformat
 import {CCMMFunding} from "@js/ccmm_invenio/forms/CCMMFunding";
 import {CCMMAlternativeIdentifiers} from "@js/ccmm_invenio/forms/CCMMAlternativeIdentifiers";
 import {CCMMRelatedWorks} from "@js/ccmm_invenio/forms/CCMMRelatedWorks";
-import {CCMMCommunityAndAccess} from "@js/ccmm_invenio/forms/CCMMCommunityAndAccess";
 
 // Administrative section - simply a concatenation of all CCMM sections into one
 export const AdministrativeSection = {
