@@ -347,7 +347,7 @@ def orcha_healthtest():
             timeout=(10, None),
             verify=orcha.ssl_verify,
         )
-        response.raise_for_status()
+        upstream.raise_for_status()
 
         return jsonify(upstream.json()), upstream.status_code
     except requests.Timeout:
@@ -358,4 +358,3 @@ def orcha_healthtest():
         if exc.response is not None and exc.response.status_code in {401, 403}:
             return jsonify({"error": "Feedback service authorization failed."}), 502
         return jsonify({"error": "Failed to call healthcheck"}), 502
-    

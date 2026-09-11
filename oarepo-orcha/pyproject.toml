@@ -53,6 +53,9 @@ oarepo_orcha = "oarepo_orcha.views:blueprint"
 [project.entry-points."invenio_i18n.translations"]
 oarepo_orcha = "oarepo_orcha"
 
+[project.entry-points."invenio_assets.webpack"]
+oarepo_orcha = "oarepo_orcha.theme.webpack:theme"
+
 [tool.hatch.build.targets.sdist]
 include = [
     "/oarepo_orcha",
