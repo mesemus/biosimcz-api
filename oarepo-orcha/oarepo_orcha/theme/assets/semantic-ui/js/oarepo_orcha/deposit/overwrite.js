@@ -12,7 +12,7 @@ const { record, files, record, permissions, useUppy } = props;
   // FIXME also overwritten
   const orchaEnabled = true;
 
-  const UploaderField = UppyUploader;
+  const UploaderField = FileUploader;
 
   const fileActions =
     !record.is_published && orchaEnabled
@@ -36,14 +36,9 @@ const { record, files, record, permissions, useUppy } = props;
       : undefined;
 
   return (
-    <Overridable
-      id="Metadata.Form.Files2"
+    <UploaderField
       {...props}
-    >
-      <UploaderField
-        {...props}
-        fileActions={fileActions}
-      />
-    </Overridable>
+      fileActions={fileActions}
+    />
   );
 };
