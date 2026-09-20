@@ -8,7 +8,7 @@ import {Experiment} from "../primitives/Experiment";
 import {ArrayFieldItem} from "@js/oarepo_ui/forms";
 
 export const ExperimentsSection = {
-    key: "files",
+    key: "study",
     label: "Study",
     component: (tabConfig) => {
         const {record, formConfig} = tabConfig;
