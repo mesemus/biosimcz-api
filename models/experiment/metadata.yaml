@@ -1,20 +1,13 @@
-# BioSim CZ Experiment metadata
-#
-# Common Experiment envelope plus polymorphic type-specific metadata.
-# Referenced from the Study data model.
-
-Experiment:
-  type: object
+# Definition of metadata for experiment. Please do not add ccmm model here,
+# add the ccmm_preset instead.
+Metadata:
   properties:
-    name:
-      type: keyword
+    title:
+      type: fulltext+keyword
       required: true
       label:
-        en: Experiment Name
-      help:
-        en: >-
-          Short label for the experiment
-          (e.g., replica_1, NPT production).
+        en: Title
+        cs: Název
 
     description:
       type: fulltext
@@ -22,6 +15,31 @@ Experiment:
         en: Description
       help:
         en: Free-text description of the experiment.
+
+    creators:
+      type: RDMCreators
+      label:
+        en: Creators
+        cs: Autoři
+
+    publication_date:
+      type: edtf
+      label:
+        en: Publication date
+        cs: Datum publikace
+
+    version:
+      type: keyword
+      label:
+        en: Record Version
+        cs: Verze záznamu
+    
+    extraction:
+      type: dynamic-object
+      label:
+        en: Extracted metadata
+      help:
+        en: Extracted metadata, do not edit manually!
 
     metadata:
       type: object
@@ -184,3 +202,16 @@ Experiment:
               items:
                 type: double
                 min_exclusive: 0
+
+
+
+
+RDMCreators:
+  label:
+    en: Creators
+    cs: Autoři
+  type: array
+  items:
+    type: RDMCreator
+  ui_marshmallow_field_class: oarepo_rdm.services.schemas.RDMCreatorListUIField
+

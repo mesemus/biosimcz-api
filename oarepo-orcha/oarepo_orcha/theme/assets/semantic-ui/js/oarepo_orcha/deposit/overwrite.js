@@ -6,7 +6,7 @@ import Overridable from "react-overridable";
 // File uploader to overwrite the default one
 export const OrchaFileUploader = (props) => {
 const config = props.config || {};
-const { record, files, record, permissions, useUppy } = props;
+const {files, record, permissions, useUppy } = props;
   
   // const orchaEnabled = config?.orchaEnabled ?? props?.orchaEnabled ?? true;
   // FIXME also overwritten

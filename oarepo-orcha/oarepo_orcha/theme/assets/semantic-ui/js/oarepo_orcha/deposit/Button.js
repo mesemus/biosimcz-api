@@ -10,12 +10,18 @@ const getDraftId = (record) => {
   return id && id !== "null" && id !== "undefined" ? id : null;
 };
 
-export const SuggestionsButtonComponent = ({ record, currentRecord, file }) => {
+export const SuggestionsButtonComponent = ({ record, currentRecord, fileKey=null }) => {
   const suggestions = useSuggestions();
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const fileKey = file?.name ?? null;
-  const isCurrentFile = !fileKey || suggestions?.activeFileKey === fileKey;
-  const isButtonLoading = Boolean(suggestions?.isLoading && isCurrentFile);
+  const isButtonLoading = Boolean(suggestions?.isLoading);
+
+  if (fileKey == null) {
+    // Try passing the first file if one exists
+    // TODO FIXME this is a temp fix
+    if (record.files.count == 1) {
+      fileKey = Object.keys(record.files.entries)[0]
+    }
+  }
 
   useEffect(() => {
     if (!isButtonLoading) {
@@ -38,14 +44,14 @@ export const SuggestionsButtonComponent = ({ record, currentRecord, file }) => {
     suggestions;
   const draftRecord = getDraftId(currentRecord) ? currentRecord : record;
   const draftId = getDraftId(draftRecord);
-  const showError = error && isCurrentFile;
-  const showSuggestionsCount = status === "success" && isCurrentFile;
+  const showError = error;
+  const showSuggestionsCount = status === "success";
   let label = i18next.t("Extract metadata");
   if (isButtonLoading) {
     label = i18next.t("Extracting metadata... {{seconds}}s", {
       seconds: elapsedSeconds,
     });
-  } else if (status === "success" && isCurrentFile) {
+  } else if (status === "success") {
     label = i18next.t("Re-extract metadata");
   }
 
@@ -56,7 +62,7 @@ export const SuggestionsButtonComponent = ({ record, currentRecord, file }) => {
         primary
         compact
         size="mini"
-        disabled={isLoading || !draftId || !fileKey}
+        disabled={isLoading || !draftId}
         icon="magic"
         content={label}
         onClick={() => trigger(draftRecord, fileKey)}
@@ -80,14 +86,10 @@ export const SuggestionsButtonComponent = ({ record, currentRecord, file }) => {
 SuggestionsButtonComponent.propTypes = {
   record: PropTypes.object.isRequired,
   currentRecord: PropTypes.object,
-  file: PropTypes.shape({
-    name: PropTypes.string,
-  }),
 };
 
 SuggestionsButtonComponent.defaultProps = {
   currentRecord: null,
-  file: null,
 };
 
 const mapStateToProps = (state) => ({

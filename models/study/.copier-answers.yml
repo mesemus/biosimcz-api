@@ -1,6 +1,6 @@
 # Changes here will be overwritten by Copier
-_commit: 8f9f148
+_commit: 6ffb43d
 _src_path: https://github.com/oarepo/nrp-model-copier
 base_model: ccmm
-model_description: A generic dataset model
-model_human_name: Metadata
+model_description: Model describing a particular study
+model_human_name: Study

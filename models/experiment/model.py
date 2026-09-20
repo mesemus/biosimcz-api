@@ -1,40 +1,28 @@
 """
-A generic dataset model
+Model describing a specific experiment
 """
 from __future__ import annotations
 
 from invenio_i18n import lazy_gettext as _
-from invenio_records_permissions.generators import AuthenticatedUser
 from oarepo_model.api import model
-from oarepo_model.customizations import PrependMixin, AddMetadataExport
-from oarepo_model.model import ModelMixin
-from oarepo_model.presets.drafts import drafts_preset
-from oarepo_model.presets.records_resources import records_resources_preset
-from oarepo_model.presets.ui_links import ui_links_preset
+from oarepo_model.customizations import AddMetadataExport
 from oarepo_model.datatypes.registry import from_yaml
-from ccmm_invenio.models import ccmm_production_preset_1_1_0
+from oarepo_rdm.model.presets import rdm_basic_preset
 
 from .serializers import DataCiteJSONSerializer
 
-class MetadataPermissionPolicyMixin(ModelMixin):
-    """Custom permission policy for metadata."""
-
-    can_view_deposit_page = [AuthenticatedUser()]
-
-
 # TODO: Consider letting users add an image/icon for the model,
 # so that the deposit model selection page is more visually appealing.
-metadata_model = model(
-    "metadata",
+experiment_model = model(
+    "experiment",
     version="1.0.0",
-    description="A generic dataset model",
+    description="Model describing a specific experiment",
     presets=[
 
-        ccmm_production_preset_1_1_0
+        rdm_basic_preset
 
     ],
     types=[
-        from_yaml("metadata-definitions.yaml", __file__),
         from_yaml("metadata.yaml", __file__)
     ],
     metadata_type="Metadata",
@@ -45,8 +33,6 @@ metadata_model = model(
         # help with using customizations, please contact us at support@cesnet.cz and
         # specify the keyword "Invenio repository development" inside the subject or
         # mail body of the request.
-        # TODO: remove this customization if you use oarepo-communities for RDM 14
-        PrependMixin("PermissionPolicy", MetadataPermissionPolicyMixin), 
 
         # export for datacite
         AddMetadataExport(
@@ -57,6 +43,6 @@ metadata_model = model(
         ),
     ],
     configuration={
-        "ui_blueprint_name": "metadata_ui"
+        "ui_blueprint_name": "experiment_ui"
     }
 )

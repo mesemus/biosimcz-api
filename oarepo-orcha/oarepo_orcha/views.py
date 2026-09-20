@@ -26,6 +26,8 @@ from .client import OrchaClient, bearer_headers
 
 blueprint = Blueprint("orcha", __name__)
 
+VALID_EXTENSIONS = ["pdf", "tpr"]
+
 
 def _dev_mode():
     """Return whether ORCHA is a local instance running with auth off."""
@@ -113,13 +115,31 @@ def get_workflow_stream_url(pid_value):
 
     orcha = _orcha_client()
     data = request.get_json(silent=True) or {}
-    file_key = data.get("fileKey")
+
+    payload_params = {}
+    if data.get("fileKey"):
+        file_key = data.get("fileKey")
+        payload_params = {"url": _file_download_url(pid_value, orcha, key=file_key)}
+    elif data.get("mode") == "allfiles":
+        file_urls = {}
+        try:
+            draft, _, _ = _record_file(pid_value)
+        except InvalidOperationError as e:
+            return jsonify({"error": e.description}), 500
+        finally:
+            for file in draft.files:
+                file: str = file
+                if any([file.endswith(ex) for ex in VALID_EXTENSIONS]):
+                    file_urls |= {file: _file_download_url(pid_value, orcha, key=file)}
+        payload_params = {"files": file_urls}   
+    else:
+        return jsonify({"error": "No valid files or allfiles mode specified."}), 504
 
     try:
         payload = {
             "workflow_type": "extract_metadata",
             "user_id": str(g.identity.id),
-            "params": {"url": _file_download_url(pid_value, orcha, key=file_key)},
+            "params": payload_params,
         }
         response = orcha.trigger_workflow(payload, _workflow_token(orcha))
         workflow_id = response["public_id"]
@@ -129,9 +149,10 @@ def get_workflow_stream_url(pid_value):
             jsonify(
                 {
                     "workflowId": workflow_id,
-                    "streamUrl": orcha.stream_url(
-                        workflow_id,
-                        workflow_token,
+                    "streamUrl": url_for(
+                        "orcha.orcha_proxy",
+                        subpath=f"workflows/{workflow_id}/stream",
+                        token=workflow_token,
                     ),
                     "workflowUrl": url_for(
                         "orcha.orcha_proxy",

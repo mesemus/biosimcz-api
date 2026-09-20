@@ -186,6 +186,9 @@ export const SuggestionsProvider = ({ children }) => {
     if (fileKey) {
       requestOptions.headers = { "Content-Type": "application/json" };
       requestOptions.body = JSON.stringify({ fileKey });
+    } else {
+      requestOptions.headers = { "Content-Type": "application/json" };
+      requestOptions.body = JSON.stringify({ "mode": "allfiles" });
     }
 
     fetch(`/uploads/${encodeURIComponent(draftId)}/orcha`, requestOptions)

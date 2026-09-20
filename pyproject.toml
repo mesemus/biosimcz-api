@@ -15,7 +15,8 @@ requires-python = ">=3.14,<3.15"
 [project.entry-points."invenio_assets.webpack"]
 i18n = "i18n.webpack:theme"
 components = "ui.components.webpack:theme"
-ui_metadata = "ui.metadata.webpack:theme"
+ui_study = "ui.study.webpack:theme"
+ui_experiment = "ui.experiment.webpack:theme"
 
 [project.entry-points."invenio_i18n.translations"]
 translations = "i18n"
@@ -24,10 +25,12 @@ translations = "i18n"
 repository = "common:alembic"
 
 [project.entry-points."invenio_base.blueprints"]
-ui_metadata = "ui.metadata:create_blueprint"
+ui_study = "ui.study:create_blueprint"
+ui_experiment = "ui.experiment:create_blueprint"
 
 [project.entry-points."invenio_base.finalize_app"]
-ui_metadata = "ui.metadata:finalize_app"
+ui_study = "ui.study:finalize_app"
+ui_experiment = "ui.experiment:finalize_app"
 
 [tool.uv.build-backend]
 module-root = ""
@@ -43,8 +46,9 @@ members = [
     "oarepo-orcha",
 ]
 
-[tool.uv.sources]
-oarepo-orcha = { workspace = true, editable = true }
+[tool.uv.sources.oarepo-orcha]
+workspace = true
+editable = true
 
 [build-system]
 requires = [

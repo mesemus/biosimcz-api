@@ -1,3 +1,5 @@
+# Definition of metadata for study. Please do not add ccmm model here,
+# add the ccmm_preset instead.
 Metadata:
   title: GROMACS Simulation Schema
   description: >-
@@ -86,9 +88,9 @@ Metadata:
               description: Concentration of the solvent in the simulation box in mol/L
               type: float
       type: object
-    experiments:
-      type: array
-      items:
-        type: Experiment
-        label:
-          en: Experiment
+
+    # TODO: Figure out how record_cls works 
+    # experiments:
+    #   type: pid-relation
+    #   keys: ["id", "metadata.title", "metadata.doi"]
+    #   record_cls: "experiment.records:Record"

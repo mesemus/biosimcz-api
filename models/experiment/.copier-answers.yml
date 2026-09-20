@@ -1,0 +1,6 @@
+# Changes here will be overwritten by Copier
+_commit: 6ffb43d
+_src_path: https://github.com/oarepo/nrp-model-copier
+base_model: rdm_basic
+model_description: Model describing a specific experiment
+model_human_name: Experiment
