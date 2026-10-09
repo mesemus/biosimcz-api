@@ -26,7 +26,9 @@ from .client import OrchaClient, bearer_headers
 
 blueprint = Blueprint("orcha", __name__)
 
-VALID_EXTENSIONS = ["pdf", "tpr"]
+# File extensions considered when selecting files for an allfiles bundle;
+# the single-file (fileKey) branch uses an explicit key, not this filter.
+VALID_EXTENSIONS = ["tpr", "gro", "top", "zip"]
 
 
 def _dev_mode():
@@ -120,24 +122,27 @@ def get_workflow_stream_url(pid_value):
     if data.get("fileKey"):
         file_key = data.get("fileKey")
         payload_params = {"url": _file_download_url(pid_value, orcha, key=file_key)}
+        workflow_type = "extract_metadata"
     elif data.get("mode") == "allfiles":
         file_urls = {}
         try:
             draft, _, _ = _record_file(pid_value)
         except InvalidOperationError as e:
             return jsonify({"error": e.description}), 500
-        finally:
-            for file in draft.files:
-                file: str = file
-                if any([file.endswith(ex) for ex in VALID_EXTENSIONS]):
-                    file_urls |= {file: _file_download_url(pid_value, orcha, key=file)}
-        payload_params = {"files": file_urls}   
+        for file in draft.files:
+            file: str = file
+            if any([file.endswith(ex) for ex in VALID_EXTENSIONS]):
+                file_urls |= {file: _file_download_url(pid_value, orcha, key=file)}
+        if len(file_urls) == 0:
+            return jsonify({"error": f"No files matching valid file extensions ({",".join(VALID_EXTENSIONS)})."}), 504
+        payload_params = {"files": file_urls}
+        workflow_type = "extract_metadata_multi"
     else:
         return jsonify({"error": "No valid files or allfiles mode specified."}), 504
 
     try:
         payload = {
-            "workflow_type": "extract_metadata",
+            "workflow_type": workflow_type,
             "user_id": str(g.identity.id),
             "params": payload_params,
         }

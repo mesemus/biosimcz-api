@@ -4,7 +4,7 @@ import Overridable from "react-overridable";
 import { i18next } from "@translations/ccmm_invenio";
 import { UppyUploader } from "@js/invenio_rdm_records";
 import { computeFilesSectionCompletion } from "@js/oarepo_ui/forms";
-import { SuggestionsButton } from "@js/oarepo_orcha/deposit";
+import { SuggestionProvenance, SuggestionsButton } from "@js/oarepo_orcha/deposit";
 
 export const Files = {
     key: "files",
@@ -37,6 +37,7 @@ export const Files = {
                         <SuggestionsButton record={record} inline />
                     </div>
                 </Overridable>
+                <SuggestionProvenance></SuggestionProvenance>
             </Fragment>
         );
     },

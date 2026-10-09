@@ -136,7 +136,7 @@ export const SuggestionsProvider = ({ children }) => {
   const updateSuggestionStatus = (field, status) => {
     setState((prev) => ({
       ...prev,
-      suggestions: prev.suggestions.map((s) =>
+      suggestions: Object.keys(prev.suggestions).map((s) =>
         s.field === field ? { ...s, status } : s
       ),
     }));
@@ -145,7 +145,7 @@ export const SuggestionsProvider = ({ children }) => {
   const removeSuggestedCreator = (index, emptyStatus) => {
     setState((prev) => ({
       ...prev,
-      suggestions: prev.suggestions.map((s) => {
+      suggestions: Object.keys(prev.suggestions).map((s) => {
         if (s.field !== "creators" || !Array.isArray(s.value)) return s;
 
         const value = s.value.filter((_, currentIndex) => currentIndex !== index);
@@ -244,18 +244,20 @@ export const SuggestionsProvider = ({ children }) => {
               return res.json();
             })
             .then((workflow) => {
-              const suggestions = workflow?.result?.suggestions ?? [];
-              if (!Array.isArray(suggestions)) {
+              const suggestions = (workflow?.result?.suggestions ?? workflow?.result?.metadata) ?? [];
+              // I hate javascript, why is checking if it's a dictionary this shit???????
+              if (suggestions.constructor != Object) {
                 throw new Error("Malformed extracted metadata result.");
               }
 
               setState((prev) => ({
                 ...prev,
                 status: STATUS.SUCCESS,
-                suggestions: suggestions.map((s) => ({
+                suggestions: Object.keys(suggestions).map((s) => ({
                   ...s,
                   status: SUGGESTION_PENDING,
                 })),
+                result: workflow?.result,
               }));
             })
             .catch(() => {
@@ -366,6 +368,10 @@ export const SuggestionsProvider = ({ children }) => {
     return state.suggestions.find((s) => s.field === field) ?? null;
   };
 
+  const getResults = (field) => {
+    return state.result ?? null;
+  };
+
   const { status, error, activeFileKey } = state;
   const value = {
     status,
@@ -379,6 +385,7 @@ export const SuggestionsProvider = ({ children }) => {
     deny,
     sendFeedback,
     getSuggestion,
+    getResults,
     dismissError,
   };
 

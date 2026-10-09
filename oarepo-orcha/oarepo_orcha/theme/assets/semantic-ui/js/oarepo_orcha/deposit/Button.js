@@ -15,14 +15,6 @@ export const SuggestionsButtonComponent = ({ record, currentRecord, fileKey=null
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const isButtonLoading = Boolean(suggestions?.isLoading);
 
-  if (fileKey == null) {
-    // Try passing the first file if one exists
-    // TODO FIXME this is a temp fix
-    if (record.files.count == 1) {
-      fileKey = Object.keys(record.files.entries)[0]
-    }
-  }
-
   useEffect(() => {
     if (!isButtonLoading) {
       setElapsedSeconds(0);
