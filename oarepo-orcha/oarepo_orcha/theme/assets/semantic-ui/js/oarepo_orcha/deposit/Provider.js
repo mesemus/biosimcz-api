@@ -368,7 +368,7 @@ export const SuggestionsProvider = ({ children }) => {
     return state.suggestions.find((s) => s.field === field) ?? null;
   };
 
-  const getResults = (field) => {
+  const getResults = () => {
     return state.result ?? null;
   };
 

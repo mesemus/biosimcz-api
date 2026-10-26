@@ -5,3 +5,4 @@ export { SuggestionsButton } from "./Button";
 export { isOrchaEnabled } from "./utils";
 export { OrchaFileUploader } from "./overwrite";
 export { SuggestionProvenance } from "./Provenance";
+export { SuggestionsApplyButton } from "./ApplyButton";

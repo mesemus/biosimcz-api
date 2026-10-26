@@ -1,75 +1,113 @@
 import React from "react";
-import { buildUID } from "react-searchkit";
-import Overridable from "react-overridable";
+import { TextField } from "@js/oarepo_ui/forms";
+import { VocabularyField } from "@js/oarepo_vocabularies";
+import { AccordionField } from "react-invenio-forms";
 import { i18next } from "@translations/oarepo_rdm";
-import { EDTFSingleDatePicker, CreatibutorsField } from "@js/oarepo_ui/forms";
-import { TitlesField, DescriptionsField } from "@js/invenio_rdm_records";
-import { PIDFieldList } from "@js/oarepo_rdm/form/components";
+
 
 export const ExperimentMetadata = {
   key: "experiment-metadata",
   label: i18next.t("Experiment metadata"),
-  component: (tabConfig) => {
-    const { record, formConfig } = tabConfig;
-    const { vocabularies, pids, is_doi_required } = formConfig.config;
-    const { overridableIdPrefix } = formConfig;
+  component: () => {
     return (
       <>
-        <Overridable
-          id={buildUID(overridableIdPrefix, "PIDField")}
-          {...tabConfig}
+        <AccordionField
+          includesPaths={["metadata.metadata.simulation_setup"]}
+          active
+          label={i18next.t("Simulation Setup")}
         >
-          <PIDFieldList
-            pids={pids}
-            record={record}
-            isDoiRequired={is_doi_required}
+          <VocabularyField
+            fieldPath={`metadata.metadata.simulation_setup.software`}
+            vocabularyName="software"
           />
-        </Overridable>
-        <Overridable
-          id={buildUID(overridableIdPrefix, "Title")}
-          {...tabConfig}
-        >
-          <TitlesField
-            options={vocabularies?.titles}
-            fieldPath="metadata.title"
-            recordUI={record.ui}
-            required
+          <TextField fieldPath={`metadata.metadata.simulation_setup.software_version`} />
+          <VocabularyField
+            fieldPath={`metadata.metadata.simulation_setup.force_field`}
+            vocabularyName="force_field"
           />
-        </Overridable>
-        <Overridable
-          id={buildUID(overridableIdPrefix, "Description")}
-          {...tabConfig}
-        >
-          <DescriptionsField
-            fieldPath="metadata.description"
-            options={vocabularies?.descriptions}
-            recordUI={record.ui}
+          <VocabularyField
+            fieldPath={`metadata.metadata.simulation_setup.water_model`}
+            vocabularyName="water_model"
           />
-        </Overridable>
-        <Overridable
-          id={buildUID(overridableIdPrefix, "PublicationDate")}
-          {...tabConfig}
-        >
-          <EDTFSingleDatePicker fieldPath="metadata.publication_date" required={false} />
-        </Overridable>
-        <Overridable
-          id={buildUID(overridableIdPrefix, "Creators")}
-          {...tabConfig}
-        >
-          <CreatibutorsField
-            fieldPath="metadata.creators"
-            schema="creators"
-            autocompleteNames="search"
-            required={false}
+          <VocabularyField
+            fieldPath={`metadata.metadata.simulation_setup.integrator`}
+            vocabularyName="integrator"
           />
-        </Overridable>
+        </AccordionField>
+
+        <AccordionField
+          includesPaths={["metadata.metadata.thermodynamic_state"]}
+          active
+          label={i18next.t("Thermodynamic State")}
+        >
+          <VocabularyField
+            fieldPath={`metadata.metadata.thermodynamic_state.ensemble`}
+            vocabularyName="ensemble"
+          />
+          <TextField
+            fieldPath={`metadata.metadata.thermodynamic_state.reference_temperature`}
+            type="number"
+            min={0}
+          />
+          <TextField
+            fieldPath={`metadata.metadata.thermodynamic_state.reference_pressure`}
+            type="number"
+            min={0}
+          />
+          <VocabularyField
+            fieldPath={`metadata.metadata.thermodynamic_state.thermostat`}
+            vocabularyName="thermostat"
+          />
+          <VocabularyField
+            fieldPath={`metadata.metadata.thermodynamic_state.barostat`}
+            vocabularyName="barostat"
+          />
+        </AccordionField>
+
+        <AccordionField
+          includesPaths={["metadata.metadata.temporal_extent"]}
+          active
+          label={i18next.t("Temporal Extent")}
+        >
+          <TextField
+            fieldPath={`metadata.metadata.temporal_extent.simulation_length`}
+            type="number"
+            min={0}
+          />
+          <TextField
+            fieldPath={`metadata.metadata.temporal_extent.timestep`}
+            type="number"
+            min={0}
+          />
+          <TextField
+            fieldPath={`metadata.metadata.temporal_extent.number_of_steps`}
+            type="number"
+            min={0}
+          />
+        </AccordionField>
+
+        <AccordionField
+          includesPaths={["metadata.metadata.system"]}
+          active
+          label={i18next.t("System")}
+        >
+          <TextField
+            fieldPath={`metadata.metadata.system.total_atoms`}
+            type="number"
+            min={0}
+          />
+          <VocabularyField
+            fieldPath={`metadata.metadata.system.box_type`}
+            vocabularyName="box_type"
+          />
+        </AccordionField>
       </>
     );
   },
   includesPaths: [
-    "pids",
-    "metadata.publication_date",
-    "metadata.title",
-    "metadata.creators",
+    "metadata.metadata.simulation_setup",
+    "metadata.metadata.thermodynamic_state",
+    "metadata.metadata.temporal_extent",
+    "metadata.metadata.system",
   ],
 };
