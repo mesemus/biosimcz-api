@@ -34,16 +34,17 @@ Metadata:
         en: Record Version
         cs: Verze záznamu
 
-    extraction:
-      type: dynamic-object
-      label:
-        en: Extracted metadata
-      help:
-        en: Extracted metadata, do not edit manually!
-
     metadata:
       type: object
       properties:
+        provenance:
+          type: dynamic-object
+          label:
+            en: Extracted metadata
+          help:
+            en: Extracted metadata, do not edit manually!
+          searchable: false
+
         simulation_setup:
           type: object
           label:

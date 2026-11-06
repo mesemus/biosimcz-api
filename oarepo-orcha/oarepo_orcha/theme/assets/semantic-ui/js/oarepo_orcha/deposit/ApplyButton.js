@@ -9,6 +9,11 @@ const getResultsMetadata = (suggestions) => {
   const metadata = suggestions?.getResults()?.metadata;
   return metadata && typeof metadata === "object" ? metadata : {};
 };
+const getResultsProvenance = (suggestions) => {
+  const metadata = suggestions?.getResults()?.provenance;
+  return metadata && typeof metadata === "object" ? metadata : {};
+};
+
 // Vocabulary fields store {id: ...} in formik; the workflow returns plain
 // strings. Maps a result key to its vocabulary name.
 const VOCABULARY_FIELDS = {
@@ -41,12 +46,16 @@ export const SuggestionsApplyButtonComponent = ({ formik }) => {
 
   const { status, error, dismissError } = suggestions;
   const metadata = getResultsMetadata(suggestions);
+  const provenance = getResultsProvenance(suggestions);
   const applicable = Object.entries(metadata).filter(
     ([, value]) => value !== null && value !== undefined
   );
   const hasMetadata = applicable.length > 0;
 
   const handleApply = async () => {
+    // Set the provenance map
+    formik.setFieldValue(`metadata.metadata.provenance`, provenance);
+
     await Promise.all(
       applicable.map(async ([key, value]) => {
         const vocabularyName = VOCABULARY_FIELDS[key];

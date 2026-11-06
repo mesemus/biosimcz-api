@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from invenio_i18n import lazy_gettext as _
 from oarepo_model.api import model
-from oarepo_model.customizations import AddMetadataExport
+from oarepo_model.customizations import AddMetadataExport, PatchIndexPropertyMapping
 from oarepo_model.datatypes.registry import from_yaml
 from oarepo_rdm.model.presets import rdm_basic_preset
 from oarepo_rdm.model.presets import rdm_minimal_preset
@@ -51,6 +51,13 @@ experiment_model = model(
             name=_("Datacite export"),
             mimetype="application/vnd.datacite.datacite+json",
             serializer=DataCiteJSONSerializer()
+        ),
+
+        # `metadata.metadata.provenance` is a free-form dump from the extraction service.
+        # This makes it so that opensearch doesn't even try to index it, as it kept throwing errors.
+        PatchIndexPropertyMapping(
+            "metadata.metadata.provenance",
+            {"type": "object", "enabled": False},
         ),
     ],
     configuration={

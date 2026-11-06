@@ -143,11 +143,6 @@ Note: Context variables available:
       <div class="ui segment">
         <pre>{{ value(md) | tojson(indent=2) }}</pre>
       </div>
-
-      <h4 class="ui header">{{ _("API metadata.extraction") }}</h4>
-      <div class="ui segment">
-        <pre>{{ (value(m.extraction) or {}) | tojson(indent=2) }}</pre>
-      </div>
     </details>
   </section>
 {%- endblock additional_record_details -%}
