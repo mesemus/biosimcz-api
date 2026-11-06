@@ -8,6 +8,8 @@ from oarepo_model.api import model
 from oarepo_model.customizations import AddMetadataExport
 from oarepo_model.datatypes.registry import from_yaml
 from oarepo_rdm.model.presets import rdm_basic_preset
+from oarepo_rdm.model.presets import rdm_minimal_preset
+from oarepo_rdm.model.presets.rdm.resources.records.exports import RDMCompleteExportsPreset
 
 from .serializers import DataCiteJSONSerializer
 
@@ -19,7 +21,15 @@ experiment_model = model(
     description="Model describing a specific experiment",
     presets=[
 
-        rdm_basic_preset
+        # NOTE: Switched from rdm_basic_preset to rdm_minimal_preset, according to the docs
+        #       some features may not work (for example I had to fix citations), don't know
+        #       how much functionality is online due to me not resetting the whole database
+        rdm_minimal_preset,
+
+
+        # Import all exports from the RDM Complete preset.
+        # This, among other things, fixes citation generation.
+        RDMCompleteExportsPreset
 
     ],
     types=[
@@ -34,7 +44,8 @@ experiment_model = model(
         # specify the keyword "Invenio repository development" inside the subject or
         # mail body of the request.
 
-        # export for datacite
+        # Export for datacite
+        # RDMCompleteExportsPreset only includes export for datacite+xml
         AddMetadataExport(
             code="datacite",
             name=_("Datacite export"),

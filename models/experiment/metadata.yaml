@@ -33,7 +33,7 @@ Metadata:
       label:
         en: Record Version
         cs: Verze záznamu
-    
+
     extraction:
       type: dynamic-object
       label:
@@ -203,9 +203,6 @@ Metadata:
                 type: double
                 min_exclusive: 0
 
-
-
-
 RDMCreators:
   label:
     en: Creators
@@ -214,4 +211,3 @@ RDMCreators:
   items:
     type: RDMCreator
   ui_marshmallow_field_class: oarepo_rdm.services.schemas.RDMCreatorListUIField
-
