@@ -1,6 +1,8 @@
 {% extends "oarepo_ui/record_detail/main.html" %}
 
 {%- set m = d.metadata -%}
+{%- set md = m.metadata -%}
+{%- set md_ui = record_ui["ui"]["metadata"] -%}
 
 {# Available template blocks (from oarepo_ui/record_detail/main.html):
 
@@ -65,3 +67,87 @@ Note: Context variables available:
   </h1>
 </section>
 {%- endblock record_title -%}
+
+
+{%- set groups = [
+  ("simulation_setup", _("Simulation Setup"), [
+    ("software", "vocabulary"),
+    ("software_version", "plain"),
+    ("force_field", "vocabulary"),
+    ("water_model", "vocabulary"),
+    ("integrator", "vocabulary"),
+  ]),
+  ("thermodynamic_state", _("Thermodynamic State"), [
+    ("ensemble", "vocabulary"),
+    ("reference_temperature", "plain"),
+    ("reference_pressure", "plain"),
+    ("thermostat", "vocabulary"),
+    ("barostat", "vocabulary"),
+  ]),
+  ("temporal_extent", _("Temporal Extent"), [
+    ("simulation_length", "plain"),
+    ("timestep", "plain"),
+    ("number_of_steps", "plain"),
+  ]),
+  ("system", _("System"), [
+    ("total_atoms", "plain"),
+    ("box_type", "vocabulary"),
+    ("box_dimensions", "list"),
+  ]),
+] -%}
+
+{%- block additional_record_details -%}
+  {{ super() }}
+  
+  {# Model experiment metadata dump #}
+  <section id="experiment-metadata" class="rel-mt-2"
+           aria-label="{{ _('Experiment metadata') }}">
+    <h2>{{ _("Experiment metadata") }}</h2>
+    {% for section_key, group_title, fields in groups %}
+      {%- set section_ui = md_ui.get(section_key, {}) -%}
+      <h3 class="ui header rel-mt-1">{{ group_title }}</h3>
+      <table class="ui celled compact definition table">
+        <tbody>
+          {% for field_key, kind in fields %}
+            {%- set node = md[section_key][field_key] -%}
+            {%- set ui = section_ui.get(field_key) -%}
+            {%- set raw = value(node) -%}
+            {% if node %}
+              <tr>
+                <td class="four wide definition">{{ d.label(node) }}</td>
+                <td>
+                  {% if kind == "vocabulary" %}
+                    {{ raw.title.en }}
+                    <code class="text-muted font-tiny">{{ raw.id }}</code>
+                  {% elif kind == "list" %}
+                    {{ raw | join(", ") }}
+                  {% else %}
+                    {{ ui if ui is not none else raw }}
+                    {% if ui is not none and ui | string != raw | string %}
+                      <code class="text-muted font-tiny">{{ raw }}</code>
+                    {% endif %}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endfor %}
+
+    {# Raw API data for debugging #}
+    <details class="rel-mt-2">
+      <summary class="ui header small">{{ _("Raw metadata (debug)") }}</summary>
+
+      <h4 class="ui header">{{ _("API metadata.metadata") }}</h4>
+      <div class="ui segment">
+        <pre>{{ value(md) | tojson(indent=2) }}</pre>
+      </div>
+
+      <h4 class="ui header">{{ _("API metadata.extraction") }}</h4>
+      <div class="ui segment">
+        <pre>{{ (value(m.extraction) or {}) | tojson(indent=2) }}</pre>
+      </div>
+    </details>
+  </section>
+{%- endblock additional_record_details -%}
