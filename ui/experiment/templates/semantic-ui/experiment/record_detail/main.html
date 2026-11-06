@@ -2,7 +2,7 @@
 
 {%- set m = d.metadata -%}
 {%- set md = m.metadata -%}
-{%- set md_ui = record_ui["ui"]["metadata"] -%}
+{%- set md_ui = ((record_ui.get("ui") or {}).get("metadata")) or {} -%}
 
 {# Available template blocks (from oarepo_ui/record_detail/main.html):
 
@@ -117,8 +117,8 @@ Note: Context variables available:
                 <td class="four wide definition">{{ d.label(node) }}</td>
                 <td>
                   {% if kind == "vocabulary" %}
-                    {{ raw.title.en }}
-                    <code class="text-muted font-tiny">{{ raw.id }}</code>
+                    {{ (raw.get("title") or {}).get("en") or raw.get("id") }}
+                    <code class="text-muted font-tiny">{{ raw.get("id") }}</code>
                   {% elif kind == "list" %}
                     {{ raw | join(", ") }}
                   {% else %}
