@@ -31,8 +31,8 @@ services:
     restart: "unless-stopped"
     environment:
       # settings only for development. DO NOT use in production!
+      - "OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g -XX:+UseG1GC"
       - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
       - "DISABLE_INSTALL_DEMO_CONFIG=true"
       - "DISABLE_SECURITY_PLUGIN=true"
       - "discovery.type=single-node"
@@ -44,7 +44,9 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    mem_limit: 2g
+    mem_limit: 4g
+    volumes:
+      - /mnt/opensearch:/usr/share/opensearch/data
     ports:
       - "${INVENIO_OPENSEARCH_HOST}:${INVENIO_OPENSEARCH_PORT}:9200"
       - "${INVENIO_OPENSEARCH_HOST}:${INVENIO_OPENSEARCH_CLUSTER_PORT}:9600"
@@ -61,5 +63,5 @@ services:
       timeout: 20s
       retries: 3
     ports:
-      - "${INVENIO_S3_PORT}:9000"
-      - "${INVENIO_S3_PORT1}:9001"
+      - "9000:9000"
+      - "9001:9001"
